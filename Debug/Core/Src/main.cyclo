@@ -1,5 +1,8 @@
-../Core/Src/main.c:158:5:main	7
-../Core/Src/main.c:298:6:SystemClock_Config	3
-../Core/Src/main.c:341:6:UART_printf	1
-../Core/Src/main.c:350:6:ai_log_err	2
-../Core/Src/main.c:366:6:Error_Handler	1
+../Core/Src/main.c:178:5:main	3
+../Core/Src/main.c:259:6:SystemClock_Config	3
+../Core/Src/main.c:302:6:UART_printf	1
+../Core/Src/main.c:311:6:ai_log_err	2
+../Core/Src/main.c:322:5:ai_bootstrap	12
+../Core/Src/main.c:410:5:get_data	3
+../Core/Src/main.c:425:5:ai_run	11
+../Core/Src/main.c:501:6:Error_Handler	1

@@ -125,8 +125,28 @@ ai_handle ch690 = AI_HANDLE_NULL;
 ai_handle clf_rf = AI_HANDLE_NULL;
 ai_handle clf_svc = AI_HANDLE_NULL;
 
+// ai_network_params ch450_params;
+
 ai_buffer* ai_input_ch450;
 ai_buffer* ai_output_ch450;
+ai_buffer* ai_input_ch475;
+ai_buffer* ai_output_ch475;
+ai_buffer* ai_input_ch515;
+ai_buffer* ai_output_ch515;
+ai_buffer* ai_input_ch550;
+ai_buffer* ai_output_ch550;
+ai_buffer* ai_input_ch555;
+ai_buffer* ai_output_ch555;
+ai_buffer* ai_input_ch600;
+ai_buffer* ai_output_ch600;
+ai_buffer* ai_input_ch640;
+ai_buffer* ai_output_ch640;
+ai_buffer* ai_input_ch690;
+ai_buffer* ai_output_ch690;
+ai_buffer* ai_input_clf_rf;
+ai_buffer* ai_output_clf_rf;
+ai_buffer* ai_input_clf_svc;
+ai_buffer* ai_output_clf_svc;
 
 /* Program variables ---------------------------------------------------------*/
 
@@ -185,96 +205,37 @@ int main(void)
   MX_USART2_UART_Init();
   UART_printf("\r\nValidation --  Calibration and Classifier Models\r\n\n");
 
-  UART_printf("Executing ai_ch450_create_and_init()\r\n");
-
-  ai_err = ai_ch450_create(&ch450, AI_CH450_DATA_CONFIG);
+  ai_bootstrap();
   if (ai_err.type != AI_ERROR_NONE) {
-    UART_printf("1. (FAIL) Creation of ch450 instance\r\n");
-    ai_log_err(ai_err, "ai_ch450_create");
-  } else {
-	  UART_printf("1. (SUMAKSES) Creation of ch450 instance\r\n");
+    ai_log_err(ai_err, "");
   }
 
-  ai_network_params ch450_params;
-  if (ai_ch450_data_params_get(&ch450_params) != true) {
-    ai_err = ai_ch450_get_error(ch450);
-    UART_printf("2. (FAIL) Creation of ch450 params\r\n");
-    ai_log_err(ai_err, "ai_ch450_data_params_get");
-  } else {
-    UART_printf("2. (SUMAKSES) Creation of ch450 params\r\n");
-  }
-  
-#if defined(AI_CH450_DATA_ACTIVATIONS_COUNT)
-  /* set the addresses of the activations buffers */
-  for (ai_u16 idx=0; ch450_act_addr && idx<ch450_params.map_activations.size; idx++) {
-    AI_BUFFER_ARRAY_ITEM_SET_ADDRESS(&ch450_params.map_activations, idx, ch450_act_addr[idx]);
-  }
-#endif
-#if defined(AI_CH450_DATA_WEIGHTS_COUNT)
-  /* set the addresses of the weight buffers */
-  for (ai_u16 idx=0; NULL && idx<ch450_params.map_weights.size; idx++) {
-    AI_BUFFER_ARRAY_ITEM_SET_ADDRESS(&ch450_params.map_weights, idx, NULL);
-  }
-#endif
-
-  UART_printf("3. (SUMAKSES) Obtaining activations and weight addresses\r\n");
-
-  if (ai_ch450_init(ch450, &ch450_params) != true) {
-    ai_err = ai_ch450_get_error(ch450);
-    UART_printf("4. (FAIL) Initialization of ch450 network\r\n");
-    ai_log_err(ai_err, "ai_ch450_init");
-  } else {
-    UART_printf("4. (SUMAKSES) Initialization of ch450 network\r\n");
-  }
-
-  ai_input_ch450 = ai_ch450_inputs_get(ch450, NULL);
-  ai_output_ch450 = ai_ch450_outputs_get(ch450, NULL);
-
-  UART_printf("5. (SUMAKSES) Assignment of ch450 input & output data addresses\r\n");
-  UART_printf("\tInput ADDR: %x\r\n", (*ai_input_ch450).data);
-  UART_printf("\tOutput ADDR: %x\r\n", (*ai_output_ch450).data);
-
-  data_ins[0] = (*ai_input_ch450).data;
-  data_outs[0] = (*ai_output_ch450).data;
-  UART_printf("6. (SUMAKSES) Assignment of per-model data to global data variable\r\n");
-  UART_printf("\tInput ADDR: %x\r\n", data_ins[0]);
-  UART_printf("\tOutput ADDR: %x\r\n", data_outs[0]);
-
-  UART_printf("End of ai_ch450_create_and_init()\r\n\n");
-
-  UART_printf("Proceeding to data acquisition\r\n");
-  for (int i=0; i < 1; i++) {
-    // obtain the data
-	  // UART_printf("Sample %i: ", i);
-    UART_printf("Data read: %f\r\n", input_data_f[i*8]);
-    *data_ins[0] = (ai_float) input_data_f[(i*8) + 0];
-    UART_printf("data_ins[0]: %f\r\n", *data_ins[0]);
-    // ai_input_ch450->data = (ai_handle*)data_ins[0];
-    // UART_printf("ch450_in:    %f\r\n", &ai_input_ch450->data);
-    // UART_printf("ch450_in:    %f\r\n", ai_input_ch450->data);
-    // UART_printf("ch450_in@:   %x %x\r\n", &(*ai_input_ch450).data, (*ai_input_ch450).data);
-    // UART_printf("\r\n\nDone reading samples.\r\n");
+  UART_printf("Proceeding to data acquisition...");
+  int err = get_data(0);
+  if (err != 0) {
+    UART_printf("\r\nERROR: Index out of bounds. Please input index < 315\r\n");
   }
 
   UART_printf("\r\nExecuting ai_run()\r\n");
+  ai_run();
 
-  HAL_TIM_Base_Start(&htim11);
-  timestamp = htim11.Instance->CNT;
+  // HAL_TIM_Base_Start(&htim11);
+  // timestamp = htim11.Instance->CNT;
 
-  batch = ai_ch450_run(ch450, ai_input_ch450, ai_output_ch450);
+  // batch = ai_ch450_run(ch450, ai_input_ch450, ai_output_ch450);
 
-  elapsed = htim11.Instance->CNT - timestamp;
+  // elapsed = htim11.Instance->CNT - timestamp;
 
-  UART_printf("Finished in %u microseconds\r\n", elapsed);
-  if (batch != 1) {
-    UART_printf("1. (FAIL) Inference failed :((\r\n");
-    ai_log_err(ai_ch450_get_error(ch450), "ai_ch450_run");
-  } else {
-    UART_printf("1. (SUMAKSES) Inference successful\r\n");
-  }
+  // UART_printf("Finished in %u microseconds\r\n", elapsed);
+  // if (batch != 1) {
+  //   UART_printf("1. (FAIL) Inference failed :((\r\n");
+  //   ai_log_err(ai_ch450_get_error(ch450), "ai_ch450_run");
+  // } else {
+  //   UART_printf("1. (SUMAKSES) Inference successful\r\n");
+  // }
 
-  calib_spectrum[0] = ((float*) data_outs)[0];
-  UART_printf("Result: %f\r\n", (float) *data_outs[0]);
+  // calib_spectrum[0] = ((float*) data_outs)[0];
+  // UART_printf("Result: %f\r\n", (float) *data_outs[0]);
 
 
 
@@ -357,6 +318,178 @@ void ai_log_err(ai_error err, char *fct)
 
   do {} while (1);
 }
+
+int ai_bootstrap(void) {
+  UART_printf("Executing ai_bootstrap()\r\n");
+
+  char* err_msg;
+  ai_err = ai_ch450_create_and_init(&ch450, ch450_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch450_create_and_init";}
+  ai_err = ai_ch475_create_and_init(&ch475, ch475_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch475_create_and_init";}
+  ai_err = ai_ch515_create_and_init(&ch515, ch515_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch515_create_and_init";}
+  ai_err = ai_ch550_create_and_init(&ch550, ch550_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch550_create_and_init";}
+  ai_err = ai_ch555_create_and_init(&ch555, ch555_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch555_create_and_init";}
+  ai_err = ai_ch600_create_and_init(&ch600, ch600_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch600_create_and_init";}
+  ai_err = ai_ch640_create_and_init(&ch640, ch640_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch640_create_and_init";}
+  ai_err = ai_ch690_create_and_init(&ch690, ch690_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_ch690_create_and_init";}
+  ai_err = ai_clf_rf_create_and_init(&clf_rf, clf_rf_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_clf_rf_create_and_init";}
+  ai_err = ai_clf_svc_create_and_init(&clf_svc, clf_svc_act_addr, NULL);
+  if (ai_err.type != AI_ERROR_NONE) {err_msg = "ai_clf_svc_create_and_init";}
+
+  if (ai_err.type != AI_ERROR_NONE) {
+    UART_printf("1. (FAIL) Creation of model instances\r\n");
+    ai_log_err(ai_err, err_msg);
+    return -1;
+  } else {
+	  UART_printf("1. (SUMAKSES) Creation of ALL model instances\r\n");
+  }
+
+  ai_input_ch450 = ai_ch450_inputs_get(ch450, NULL);
+  ai_output_ch450 = ai_ch450_outputs_get(ch450, NULL);
+  ai_input_ch475 = ai_ch475_inputs_get(ch475, NULL);
+  ai_output_ch475 = ai_ch475_outputs_get(ch475, NULL);
+  ai_input_ch515 = ai_ch515_inputs_get(ch515, NULL);
+  ai_output_ch515 = ai_ch515_outputs_get(ch515, NULL);
+  ai_input_ch550 = ai_ch550_inputs_get(ch550, NULL);
+  ai_output_ch550 = ai_ch550_outputs_get(ch550, NULL);
+  ai_input_ch555 = ai_ch555_inputs_get(ch555, NULL);
+  ai_output_ch555 = ai_ch555_outputs_get(ch555, NULL);
+  ai_input_ch600 = ai_ch600_inputs_get(ch600, NULL);
+  ai_output_ch600 = ai_ch600_outputs_get(ch600, NULL);
+  ai_input_ch640 = ai_ch640_inputs_get(ch640, NULL);
+  ai_output_ch640 = ai_ch640_outputs_get(ch640, NULL);
+  ai_input_ch690 = ai_ch690_inputs_get(ch690, NULL);
+  ai_output_ch690 = ai_ch690_outputs_get(ch690, NULL);
+  ai_input_clf_rf = ai_clf_rf_inputs_get(clf_rf, NULL);
+  ai_output_clf_rf = ai_clf_rf_outputs_get(clf_rf, NULL);
+  ai_input_clf_svc = ai_clf_svc_inputs_get(clf_svc, NULL);
+  ai_output_clf_svc = ai_clf_svc_outputs_get(clf_svc, NULL);
+
+  UART_printf("2. (SUMAKSES) Allocating input & output data storage\r\n");
+  // UART_printf("\tInput ADDR: %x\r\n", (*ai_input_ch450).data);
+  // UART_printf("\tOutput ADDR: %x\r\n", (*ai_output_ch450).data);
+
+  data_ins[0] = (*ai_input_ch450).data;
+  data_outs[0] = (*ai_output_ch450).data;
+  data_ins[1] = (*ai_input_ch475).data;
+  data_outs[1] = (*ai_output_ch475).data;
+  data_ins[2] = (*ai_input_ch515).data;
+  data_outs[2] = (*ai_output_ch515).data;
+  data_ins[3] = (*ai_input_ch550).data;
+  data_outs[3] = (*ai_output_ch550).data;
+  data_ins[4] = (*ai_input_ch555).data;
+  data_outs[4] = (*ai_output_ch555).data;
+  data_ins[5] = (*ai_input_ch600).data;
+  data_outs[5] = (*ai_output_ch600).data;
+  data_ins[6] = (*ai_input_ch640).data;
+  data_outs[6] = (*ai_output_ch640).data;
+  data_ins[7] = (*ai_input_ch690).data;
+  data_outs[7] = (*ai_output_ch690).data;
+  data_ins_clf[0] = (*ai_input_clf_rf).data;
+  data_outs_clf[0] = (*ai_output_clf_rf).data;
+  data_ins_clf[0] = (*ai_input_clf_svc).data;
+  data_outs_clf[1] = (*ai_output_clf_svc).data;
+
+  UART_printf("3. (SUMAKSES) Assignment of per-model data to global data variable\r\n");
+  // UART_printf("\tInput ADDR: %x\r\n", data_ins[0]);
+  // UART_printf("\tOutput ADDR: %x\r\n", data_outs[0]);
+
+  UART_printf("End of ai_bootstrap()\r\n\n");
+
+  return 0;
+}
+
+int get_data(int idx) {
+  if (idx > N_SAMPLES-1) {
+    return -1;
+  }
+  // UART_printf("   Data read     data_ins\r\n");
+  for (int i=0; i < N_CHANNELS; i++) {
+    // UART_printf("%.10f ", input_data_f[(idx*8) + i]);
+    *data_ins[i] = (ai_float) input_data_f[(idx*8) + i];
+    // UART_printf("%.10f\r\n", *data_ins[i]);
+  }
+  UART_printf("DONE\r\n");
+
+  return 0;
+}
+
+int ai_run_calib(void) {
+  UART_printf("Running Calibration models\r\n");
+
+  uint32_t runtimes[8];
+  uint32_t time_start;
+  char* err_msg = "";
+
+  HAL_TIM_Base_Start(&htim11);
+  time_start = htim11.Instance->CNT;
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch450_run(ch450, ai_input_ch450, ai_output_ch450);
+  runtimes[0] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch450_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch475_run(ch475, ai_input_ch475, ai_output_ch475);
+  runtimes[1] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch475_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch515_run(ch450, ai_input_ch515, ai_output_ch515);
+  runtimes[2] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch515_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch550_run(ch450, ai_input_ch550, ai_output_ch550);
+  runtimes[3] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch550_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch555_run(ch450, ai_input_ch555, ai_output_ch555);
+  runtimes[4] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch555_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch600_run(ch450, ai_input_ch600, ai_output_ch600);
+  runtimes[5] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch600_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch640_run(ch450, ai_input_ch640, ai_output_ch640);
+  runtimes[6] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch640_run"; }
+
+  timestamp = htim11.Instance->CNT;
+  batch = ai_ch690_run(ch450, ai_input_ch690, ai_output_ch690);
+  runtimes[7] = htim11.Instance->CNT - timestamp;
+  if (batch <= 0) { err_msg = "ai_ch690_run"; }
+
+  elapsed = htim11.Instance->CNT - time_start;
+  HAL_TIM_Base_Stop(&htim11);
+  if (strlen(err_msg) > 1) {
+    UART_printf("1. (FAIL) Calibration model/s failed :((\r\n");
+    UART_printf("Failure at %s\r\n", err_msg);
+    // ai_log_err(ai_ch450_get_error(ch450), "ai_ch450_run");
+    return -1;
+  }
+  
+  UART_printf("1. (SUMAKSES) Calibration successful (TIME: %i microseconds)\r\n", elapsed);
+  UART_printf("idx        input       output   time\r\n");
+  for (int i=0; i < N_CHANNELS; i++) {
+    UART_printf(" %i  %.10f %.10f %4ius\r\n", i, *data_ins[i], *data_outs[i], runtimes[i]);
+  }
+  
+  return 0;
+}
+
 /* USER CODE END 4 */
 
 /**

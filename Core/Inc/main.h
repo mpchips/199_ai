@@ -62,6 +62,10 @@ void UART_printf(char *format, ...);
  * @brief Handles error logging for ai errors.
  */
 void ai_log_err(ai_error err, char *fct);
+
+int ai_bootstrap(void);
+int get_data(int idx);
+int ai_run_calib(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
