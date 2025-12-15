@@ -1,0 +1,13 @@
+../X-CUBE-AI/App/ch515.c:170:9:ch515_configure_activations	2
+../X-CUBE-AI/App/ch515.c:193:9:ch515_configure_weights	2
+../X-CUBE-AI/App/ch515.c:220:9:ai_ch515_get_info	4
+../X-CUBE-AI/App/ch515.c:267:9:ai_ch515_get_report	4
+../X-CUBE-AI/App/ch515.c:314:10:ai_ch515_get_error	1
+../X-CUBE-AI/App/ch515.c:321:10:ai_ch515_create	1
+../X-CUBE-AI/App/ch515.c:332:10:ai_ch515_create_and_init	8
+../X-CUBE-AI/App/ch515.c:367:12:ai_ch515_inputs_get	2
+../X-CUBE-AI/App/ch515.c:378:12:ai_ch515_outputs_get	2
+../X-CUBE-AI/App/ch515.c:389:11:ai_ch515_destroy	1
+../X-CUBE-AI/App/ch515.c:396:9:ai_ch515_init	2
+../X-CUBE-AI/App/ch515.c:413:8:ai_ch515_run	1
+../X-CUBE-AI/App/ch515.c:421:8:ai_ch515_forward	1

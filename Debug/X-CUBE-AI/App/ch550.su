@@ -1,0 +1,13 @@
+../X-CUBE-AI/App/ch550.c:170:9:ch550_configure_activations	16	static
+../X-CUBE-AI/App/ch550.c:193:9:ch550_configure_weights	16	static
+../X-CUBE-AI/App/ch550.c:220:9:ai_ch550_get_info	160	static
+../X-CUBE-AI/App/ch550.c:267:9:ai_ch550_get_report	160	static
+../X-CUBE-AI/App/ch550.c:314:10:ai_ch550_get_error	16	static
+../X-CUBE-AI/App/ch550.c:321:10:ai_ch550_create	24	static
+../X-CUBE-AI/App/ch550.c:332:10:ai_ch550_create_and_init	88	static
+../X-CUBE-AI/App/ch550.c:367:12:ai_ch550_inputs_get	16	static
+../X-CUBE-AI/App/ch550.c:378:12:ai_ch550_outputs_get	16	static
+../X-CUBE-AI/App/ch550.c:389:11:ai_ch550_destroy	16	static
+../X-CUBE-AI/App/ch550.c:396:9:ai_ch550_init	24	static
+../X-CUBE-AI/App/ch550.c:413:8:ai_ch550_run	24	static
+../X-CUBE-AI/App/ch550.c:421:8:ai_ch550_forward	16	static

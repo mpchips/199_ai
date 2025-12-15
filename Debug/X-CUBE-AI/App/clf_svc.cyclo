@@ -1,0 +1,13 @@
+../X-CUBE-AI/App/clf_svc.c:1201:9:clf_svc_configure_activations	2
+../X-CUBE-AI/App/clf_svc.c:1288:9:clf_svc_configure_weights	2
+../X-CUBE-AI/App/clf_svc.c:1348:9:ai_clf_svc_get_info	4
+../X-CUBE-AI/App/clf_svc.c:1395:9:ai_clf_svc_get_report	4
+../X-CUBE-AI/App/clf_svc.c:1442:10:ai_clf_svc_get_error	1
+../X-CUBE-AI/App/clf_svc.c:1449:10:ai_clf_svc_create	1
+../X-CUBE-AI/App/clf_svc.c:1460:10:ai_clf_svc_create_and_init	8
+../X-CUBE-AI/App/clf_svc.c:1495:12:ai_clf_svc_inputs_get	2
+../X-CUBE-AI/App/clf_svc.c:1506:12:ai_clf_svc_outputs_get	2
+../X-CUBE-AI/App/clf_svc.c:1517:11:ai_clf_svc_destroy	1
+../X-CUBE-AI/App/clf_svc.c:1524:9:ai_clf_svc_init	2
+../X-CUBE-AI/App/clf_svc.c:1541:8:ai_clf_svc_run	1
+../X-CUBE-AI/App/clf_svc.c:1549:8:ai_clf_svc_forward	1

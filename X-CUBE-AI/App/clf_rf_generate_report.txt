@@ -1,0 +1,161 @@
+ST Edge AI Core v2.2.0-20266 2adc00962
+Created date          : 2025-12-15 00:48:33
+Parameters            : generate --target stm32f4 --name clf_rf -m /Users/moreypiatos/clf_models/RandomForest.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345817150897022091019310175335282 --output /Users/moreypiatos/.stm32cubemx/clf_rf_output
+
+Exec/report summary (generate)
+---------------------------------------------------------------------------------------------------------------------------
+model file         :   /Users/moreypiatos/clf_models/RandomForest.onnx                                                     
+type               :   onnx                                                                                                
+c_name             :   clf_rf                                                                                              
+compression        :   none                                                                                                
+options            :   allocate-inputs, allocate-outputs                                                                   
+optimization       :   balanced                                                                                            
+target/series      :   stm32f4                                                                                             
+workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345817150897022091019310175335282   
+output dir         :   /Users/moreypiatos/.stm32cubemx/clf_rf_output                                                       
+model_fmt          :   undefined                                                                                           
+model_name         :   RandomForest                                                                                        
+model_hash         :   0xa2382c8996faa6d9b290642ab7ad4e52                                                                  
+params #           :   70,813 items (170.71 KiB)                                                                           
+---------------------------------------------------------------------------------------------------------------------------
+input 1/1          :   'spectrum', f32(1x1x8), 32 Bytes, activations                                                       
+output 1/2         :   'label0', int32(1x1), 4 Bytes, activations                                                          
+output 2/2         :   'label1', f32(1x1x3), 12 Bytes, activations                                                         
+outputs (total)    :   16 Bytes                                                                                            
+macc               :   1,099                                                                                               
+weights (ro)       :   174,812 B (170.71 KiB) (1 segment) / -108,440(-38.3%) vs float model                                
+activations (rw)   :   48 B (48 B) (1 segment) *                                                                           
+ram (total)        :   48 B (48 B) = 48 + 0 + 0                                                                            
+---------------------------------------------------------------------------------------------------------------------------
+(*) 'input'/'output' buffers are allocated in the activations buffer
+
+Model name - RandomForest
+------ -------------------------------------------------------- ---------------- ---------------- ------- -------------- --- -------- -------- ---------------------------------- 
+m_id   layer (type,original)                                    oshape           param/size          macc   connected to   | c_size   c_macc   c_type                             
+------ -------------------------------------------------------- ---------------- ---------------- ------- -------------- --- -------- -------- ---------------------------------- 
+0      spectrum (Input, )                                       [h:1,c:8]                                                  |                   
+------ -------------------------------------------------------- ---------------- ---------------- ------- -------------- --- -------- -------- ---------------------------------- 
+1      label (TreeEnsembleClassifier, TreeEnsembleClassifier)   [c:1][h:1,c:3]   70,813/174,806     1,099       spectrum   |                   TreeEnsembleClassifier_[o][o][0]   
+------ -------------------------------------------------------- ---------------- ---------------- ------- -------------- --- -------- -------- ---------------------------------- 
+model/c-model: macc=1,099/1,099  weights=174,806/174,812 +6(+0.0%) activations=--/48 io=--/0
+
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name            : RandomForest
+c-name                : clf_rf
+c-node #              : 1
+c-array #             : 15
+activations size      : 48 (1 segment)
+weights size          : 174812 (1 segment)
+macc                  : 1099
+inputs                : ['spectrum_output']
+outputs               : ['label_output0', 'label_output1']
+
+C-Arrays (15)
+------ ----------------------------- ------------- ------------------------- ------------- --------- 
+c_id   name (*_array)                item/size     domain/mem-pool           c-type        comment   
+------ ----------------------------- ------------- ------------------------- ------------- --------- 
+0      label_base_values             3/12          weights/weights           const float             
+1      label_branch_mode             100/100       weights/weights           const u8                
+2      label_class_ids               12513/25026   weights/weights           const u16               
+3      label_class_nodeids           12513/25026   weights/weights           const u16               
+4      label_class_weights           12513/50052   weights/weights           const float             
+5      label_classlabels_int64s      3/12          weights/weights           const s32               
+6      label_nb_class_by_estimator   100/200       weights/weights           const u16               
+7      label_nb_node_by_estimator    100/200       weights/weights           const u16               
+8      label_nodes_falsenodeids      8242/16484    weights/weights           const u16               
+9      label_nodes_featureids        8242/8242     weights/weights           const u8                
+10     label_nodes_truenodeids       8242/16484    weights/weights           const u16               
+11     label_nodes_values            8242/32968    weights/weights           const float             
+12     label_output0                 1/4           activations/**default**   s32           /output   
+13     label_output1                 3/12          activations/**default**   float         /output   
+14     spectrum_output               8/32          activations/**default**   float         /input    
+------ ----------------------------- ------------- ------------------------- ------------- --------- 
+
+C-Layers (1)
+------ ---------------- ---- ------------------------- ------ -------- -------------------------------- ------------------- 
+c_id   name (*_layer)   id   layer_type                macc   rom      tensors                          shape (array id)    
+------ ---------------- ---- ------------------------- ------ -------- -------------------------------- ------------------- 
+0      label            1    TreeEnsembleClassifier    1099   174806   I: spectrum_output               f32(1x1x8) (14)     
+                                                                       W: label_branch_mode             uint8(100) (1)      
+                                                                       W: label_nodes_featureids        uint8(8242) (9)     
+                                                                       W: label_nodes_values            f32(8242) (11)      
+                                                                       W: label_nodes_truenodeids       uint16(8242) (10)   
+                                                                       W: label_nodes_falsenodeids      uint16(8242) (8)    
+                                                                       W: label_class_weights           f32(12513) (4)      
+                                                                       W: label_nb_node_by_estimator    uint16(100) (7)     
+                                                                       W: label_class_nodeids           uint16(12513) (3)   
+                                                                       W: label_nb_class_by_estimator   uint16(100) (6)     
+                                                                       W: label_classlabels_int64s      int32(3) (5)        
+                                                                       W: label_base_values             f32(3) (0)          
+                                                                       W: label_class_ids               uint16(12513) (2)   
+                                                                       O: label_output0                 int32(1x1) (12)     
+                                                                       O: label_output1                 f32(1x1x3) (13)     
+------ ---------------- ---- ------------------------- ------ -------- -------------------------------- ------------------- 
+
+
+
+Number of operations per c-layer
+------- ------ -------------------------------- ------- ------------- 
+c_id    m_id   name (type)                          #op          type 
+------- ------ -------------------------------- ------- ------------- 
+0       1      label (TreeEnsembleClassifier)     1,099   smul_f32_s8 
+------- ------ -------------------------------- ------- ------------- 
+total                                             1,099 
+
+Number of operation types
+---------------- ------- ----------- 
+operation type         #           % 
+---------------- ------- ----------- 
+smul_f32_s8        1,099      100.0% 
+
+Complexity report (model)
+------ ------- ------------------------- ------------------------- ------ 
+m_id   name    c_macc                    c_rom                     c_id   
+------ ------- ------------------------- ------------------------- ------ 
+1      label   |||||||||||||||| 100.0%   |||||||||||||||| 100.0%   [0]    
+------ ------- ------------------------- ------------------------- ------ 
+macc=1,099 weights=174,812 act=48 ram_io=0
+ 
+ Requested memory size by section - "stm32f4" target
+ ------------------------------ ------- --------- ------- ----- 
+ module                            text    rodata    data   bss 
+ ------------------------------ ------- --------- ------- ----- 
+ NetworkRuntime1020_CM4_GCC.a     5,016         0       0     0 
+ clf_rf.o                           648         8   1,524   168 
+ clf_rf_data.o                       48        16      88     0 
+ lib (toolchain)*                     0         0       0     0 
+ ------------------------------ ------- --------- ------- ----- 
+ RT total**                       5,712        24   1,612   168 
+ ------------------------------ ------- --------- ------- ----- 
+ weights                              0   174,816       0     0 
+ activations                          0         0       0    48 
+ io                                   0         0       0     0 
+ ------------------------------ ------- --------- ------- ----- 
+ TOTAL                            5,712   174,840   1,612   216 
+ ------------------------------ ------- --------- ------- ----- 
+ *  toolchain objects (libm/libgcc*)
+ ** RT AI runtime objects (kernels+infrastructure)
+  
+  Summary - "stm32f4" target
+  --------------------------------------------------
+               FLASH (ro)     %*   RAM (rw)       % 
+  --------------------------------------------------
+  RT total          7,348   4.0%      1,780   97.4% 
+  --------------------------------------------------
+  TOTAL           182,164             1,828         
+  --------------------------------------------------
+  *  rt/total
+
+
+Generated files (7)
+-------------------------------------------------------------------- 
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf_data_params.h   
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf_data_params.c   
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf_data.h          
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf_data.c          
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf_config.h        
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf.h               
+/Users/moreypiatos/.stm32cubemx/clf_rf_output/clf_rf.c               

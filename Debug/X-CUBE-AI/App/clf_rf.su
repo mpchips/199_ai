@@ -1,0 +1,13 @@
+../X-CUBE-AI/App/clf_rf.c:308:9:clf_rf_configure_activations	16	static
+../X-CUBE-AI/App/clf_rf.c:333:9:clf_rf_configure_weights	16	static
+../X-CUBE-AI/App/clf_rf.c:390:9:ai_clf_rf_get_info	160	static
+../X-CUBE-AI/App/clf_rf.c:437:9:ai_clf_rf_get_report	160	static
+../X-CUBE-AI/App/clf_rf.c:484:10:ai_clf_rf_get_error	16	static
+../X-CUBE-AI/App/clf_rf.c:491:10:ai_clf_rf_create	24	static
+../X-CUBE-AI/App/clf_rf.c:502:10:ai_clf_rf_create_and_init	88	static
+../X-CUBE-AI/App/clf_rf.c:537:12:ai_clf_rf_inputs_get	16	static
+../X-CUBE-AI/App/clf_rf.c:548:12:ai_clf_rf_outputs_get	16	static
+../X-CUBE-AI/App/clf_rf.c:559:11:ai_clf_rf_destroy	16	static
+../X-CUBE-AI/App/clf_rf.c:566:9:ai_clf_rf_init	24	static
+../X-CUBE-AI/App/clf_rf.c:583:8:ai_clf_rf_run	24	static
+../X-CUBE-AI/App/clf_rf.c:591:8:ai_clf_rf_forward	16	static
