@@ -66,6 +66,8 @@ void ai_log_err(ai_error err, char *fct);
 int ai_bootstrap(void);
 int get_data(int idx);
 int ai_run_calib(void);
+int ai_run_clf(void);
+int get_category(float model_output[3]);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

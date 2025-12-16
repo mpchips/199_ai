@@ -103,7 +103,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../X-CUBE-AI/App/clf_rf_config.h ../X-CUBE-AI/App/clf_rf_data.h \
  ../X-CUBE-AI/App/clf_rf_data_params.h ../X-CUBE-AI/App/clf_svc.h \
  ../X-CUBE-AI/App/clf_svc_config.h ../X-CUBE-AI/App/clf_svc_data.h \
- ../X-CUBE-AI/App/clf_svc_data_params.h ../Core/Inc/test_data.h
+ ../X-CUBE-AI/App/clf_svc_data_params.h ../Core/Inc/clf_xgb.h \
+ ../Core/Inc/test_data.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -235,4 +236,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../X-CUBE-AI/App/clf_svc_config.h:
 ../X-CUBE-AI/App/clf_svc_data.h:
 ../X-CUBE-AI/App/clf_svc_data_params.h:
+../Core/Inc/clf_xgb.h:
 ../Core/Inc/test_data.h:
