@@ -238,7 +238,7 @@ int main(void)
   UART_printf("450nm,475nm,515nm,550nm,555nm,600nm,640nm,690nm,rf,svc,xgb\r\n");
   for (int i=0; i < N_SAMPLES; i++) {
     htim11.Instance->CNT = 0;
-	  HAL_TIM_Base_Start(&htim11);
+	HAL_TIM_Base_Start(&htim11);
     OVERALL_start = htim11.Instance->CNT;
     get_data(i);
     ai_run_calib();
@@ -253,12 +253,12 @@ int main(void)
     
 
     // print results
-    // for (int n=0; n < N_CHANNELS; n++) {
-    //   UART_printf("%.10f,", *data_outs[n]);
-    // }
-    // UART_printf("%u,", get_category(data_outs_rf_float));
-    // UART_printf("%u,", get_category(data_outs_svc_float));
-    // UART_printf("%u\r\n", get_category(data_outs_xgb_float));
+     for (int n=0; n < N_CHANNELS; n++) {
+       UART_printf("%.10f,", *data_outs[n]);
+     }
+     UART_printf("%u,", get_category(data_outs_rf_float));
+     UART_printf("%u,", get_category(data_outs_svc_float));
+     UART_printf("%u\r\n", get_category(data_outs_xgb_float));
   }
 
   // process runtimes
@@ -465,9 +465,6 @@ int ai_run_calib(void) {
   // UART_printf("Running Calibration models\r\n");
   char* err_msg = "";
 
-  ((float*)data_ins_rf)[0] = *data_outs[0];
-  ((float*)data_ins_svc)[0] = **data_outs;
-
   // HAL_TIM_Base_Start(&htim11);
   // uint32_t time_start = htim11.Instance->CNT;
 
@@ -512,7 +509,7 @@ int ai_run_calib(void) {
   if (batch <= 0) { err_msg = "ai_ch690_run"; }
 
   // elapsed = htim11.Instance->CNT - time_start;
-  HAL_TIM_Base_Stop(&htim11);
+//  HAL_TIM_Base_Stop(&htim11);
   if (strlen(err_msg) > 1) {
     UART_printf("1. (FAIL) Calibration model/s failed :((\r\n");
     UART_printf("Failure at %s\r\n", err_msg);
@@ -530,7 +527,13 @@ int ai_run_calib(void) {
 
 int ai_run_clf(void) {
 
-  HAL_TIM_Base_Start(&htim11);
+//  HAL_TIM_Base_Start(&htim11);
+//  for (int i=0; i < N_CHANNELS; i++) {
+//	((float*)data_ins_rf)[i] = *data_outs[i];
+//	((float*)data_ins_svc)[i] = *data_outs[i];
+//  }
+  memcpy(data_ins_rf[0], data_outs[0], 32);
+  memcpy(data_ins_svc[0], data_outs[0], 32);
 
   timestamp = htim11.Instance->CNT;
   batch = ai_clf_rf_run(clf_rf, ai_input_clf_rf, ai_output_clf_rf);
