@@ -113,44 +113,44 @@
   ],
   "environment": {
     "generated_model": {
-      "generated_time": "2025-12-15T00:45:44+0800",
+      "generated_time": "2025-12-17T00:07:56+0800",
       "model_files": [
         {
           "name": "ch475_data_params.h",
-          "signature": "0xf515497aff59b79bc94b81158f497246"
+          "signature": "0x747583548d6ab4fa1f408658cdf5f74c"
         },
         {
           "name": "ch475_data_params.c",
-          "signature": "0x3a29f8ad104e543b5d85fb3d9828daef"
+          "signature": "0x85b76c2f8f10f65f4cf346e21a7dd173"
         },
         {
           "name": "ch475_data.h",
-          "signature": "0x8a764c2ac8fec4e0e41bf438ad49ad20"
+          "signature": "0x26b46123d08c7168c25b98e727f97833"
         },
         {
           "name": "ch475_data.c",
-          "signature": "0xd3a7bddcd65305178ce76811c1d8e6ae"
+          "signature": "0x675dd5014500245dca71966cb5e84862"
         },
         {
           "name": "ch475_config.h",
-          "signature": "0xe41743bda81fed4efc2c6e71a73e57cf"
+          "signature": "0x6b13f473e7b33d3b27ecd21886024f93"
         },
         {
           "name": "ch475.h",
-          "signature": "0xa593793bb659727ddb9b7756292550d0"
+          "signature": "0x5a5889d7f9dd20b050ba094d7ebf031a"
         },
         {
           "name": "ch475.c",
-          "signature": "0x561985ae824283b71be160d56fc4e6af"
+          "signature": "0x600bb5a3a0d011beb8f6290a1d6ad7d0"
         }
       ],
       "name": "ch475"
     },
-    "network_signature": "0xef49ba5b33e39497",
+    "network_signature": "0xffebeb6a568d56df",
     "test_name": "",
     "tools": [
       {
-        "arguments": "generate --target stm32f4 --name ch475 -m /Users/moreypiatos/calib_models/ch475.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13441723857804012782771937856744516 --output /Users/moreypiatos/.stm32cubemx/ch475_output",
+        "arguments": "generate --target stm32f4 --name ch475 -m /Users/moreypiatos/calib_models/ch475.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23325874416694611959551516197019768 --output /Users/moreypiatos/.stm32cubemx/ch475_output",
         "environment": [
           "STATS_TYPE=X-CUBE-AI"
         ],

@@ -1,6 +1,6 @@
 ST Edge AI Core v2.2.0-20266 2adc00962
-Created date          : 2025-12-15 00:45:45
-Parameters            : generate --target stm32f4 --name ch475 -m /Users/moreypiatos/calib_models/ch475.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13441723857804012782771937856744516 --output /Users/moreypiatos/.stm32cubemx/ch475_output
+Created date          : 2025-12-17 00:07:57
+Parameters            : generate --target stm32f4 --name ch475 -m /Users/moreypiatos/calib_models/ch475.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23325874416694611959551516197019768 --output /Users/moreypiatos/.stm32cubemx/ch475_output
 
 Exec/report summary (generate)
 ----------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ compression        :   none
 options            :   allocate-inputs, allocate-outputs                                                                    
 optimization       :   balanced                                                                                             
 target/series      :   stm32f4                                                                                              
-workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13441723857804012782771937856744516   
+workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23325874416694611959551516197019768   
 output dir         :   /Users/moreypiatos/.stm32cubemx/ch475_output                                                         
 model_fmt          :   float                                                                                                
 model_name         :   ch475                                                                                                

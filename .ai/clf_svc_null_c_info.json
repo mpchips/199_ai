@@ -1278,44 +1278,44 @@
   ],
   "environment": {
     "generated_model": {
-      "generated_time": "2025-12-15T00:48:58+0800",
+      "generated_time": "2025-12-17T00:11:08+0800",
       "model_files": [
         {
           "name": "clf_svc_data_params.h",
-          "signature": "0x48953331d7ae7b38da6233532e20534a"
+          "signature": "0xbe97e4093f97bf0c7d062bf4b227b8c4"
         },
         {
           "name": "clf_svc_data_params.c",
-          "signature": "0xa9b5ed584543432c737737931aceb977"
+          "signature": "0x20775b0243c9e04b44ee8c5b444b323c"
         },
         {
           "name": "clf_svc_data.h",
-          "signature": "0x40fd0261e524af4468e0da644a73d562"
+          "signature": "0xe1150785e083cb5dd50960972a512b7f"
         },
         {
           "name": "clf_svc_data.c",
-          "signature": "0x7113b6cabe1d68d7ee8d3a5dd32cf41a"
+          "signature": "0x1ce3786c29afe88e96bb8f1fe741ffef"
         },
         {
           "name": "clf_svc_config.h",
-          "signature": "0xcfd4d78090fffb1052001bf784d075e1"
+          "signature": "0x71829aa8a0f9b56dad27c9f945bb17d6"
         },
         {
           "name": "clf_svc.h",
-          "signature": "0x973b0c486e01462c6cd959fab6269752"
+          "signature": "0x47162549c2cd047c919c1be6469a9b18"
         },
         {
           "name": "clf_svc.c",
-          "signature": "0xcb92b4e6e1389aec988f293232e228bb"
+          "signature": "0x1889482bef0dd087ff91fcac2d4222b4"
         }
       ],
       "name": "clf_svc"
     },
-    "network_signature": "0x123df4f62c840bf2",
+    "network_signature": "0x36b3ffd6840cc422",
     "test_name": "",
     "tools": [
       {
-        "arguments": "generate --target stm32f4 --name clf_svc -m /Users/moreypiatos/clf_models/SVC.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13460840140651512778159103333592547 --output /Users/moreypiatos/.stm32cubemx/clf_svc_output",
+        "arguments": "generate --target stm32f4 --name clf_svc -m /Users/moreypiatos/clf_models/SVC.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23344888034657416178790660925874039 --output /Users/moreypiatos/.stm32cubemx/clf_svc_output",
         "environment": [
           "STATS_TYPE=X-CUBE-AI"
         ],

@@ -3,7 +3,7 @@
   ******************************************************************************
   * @file    ch600_config.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    2025-12-15T00:47:15+0800
+  * @date    2025-12-17T00:09:31+0800
   * @brief   AI Tool Automatic Code Generator for Custom Layers Implementation
   ******************************************************************************
   * @attention

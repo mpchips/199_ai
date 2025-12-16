@@ -1,6 +1,6 @@
 ST Edge AI Core v2.2.0-20266 2adc00962
-Created date          : 2025-12-15 00:49:00
-Parameters            : generate --target stm32f4 --name clf_svc -m /Users/moreypiatos/clf_models/SVC.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13460840140651512778159103333592547 --output /Users/moreypiatos/.stm32cubemx/clf_svc_output
+Created date          : 2025-12-17 00:11:09
+Parameters            : generate --target stm32f4 --name clf_svc -m /Users/moreypiatos/clf_models/SVC.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23344888034657416178790660925874039 --output /Users/moreypiatos/.stm32cubemx/clf_svc_output
 
 Exec/report summary (generate)
 ----------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ compression        :   none
 options            :   allocate-inputs, allocate-outputs                                                                    
 optimization       :   balanced                                                                                             
 target/series      :   stm32f4                                                                                              
-workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13460840140651512778159103333592547   
+workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23344888034657416178790660925874039   
 output dir         :   /Users/moreypiatos/.stm32cubemx/clf_svc_output                                                       
 model_fmt          :   float                                                                                                
 model_name         :   SVC                                                                                                  

@@ -1,6 +1,6 @@
 ST Edge AI Core v2.2.0-20266 2adc00962
-Created date          : 2025-12-15 00:48:33
-Parameters            : generate --target stm32f4 --name clf_rf -m /Users/moreypiatos/clf_models/RandomForest.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345817150897022091019310175335282 --output /Users/moreypiatos/.stm32cubemx/clf_rf_output
+Created date          : 2025-12-17 00:10:42
+Parameters            : generate --target stm32f4 --name clf_rf -m /Users/moreypiatos/clf_models/RandomForest.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace2334240811459317715743477810666083 --output /Users/moreypiatos/.stm32cubemx/clf_rf_output
 
 Exec/report summary (generate)
 ---------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ compression        :   none
 options            :   allocate-inputs, allocate-outputs                                                                   
 optimization       :   balanced                                                                                            
 target/series      :   stm32f4                                                                                             
-workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345817150897022091019310175335282   
+workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace2334240811459317715743477810666083   
 output dir         :   /Users/moreypiatos/.stm32cubemx/clf_rf_output                                                       
 model_fmt          :   undefined                                                                                           
 model_name         :   RandomForest                                                                                        

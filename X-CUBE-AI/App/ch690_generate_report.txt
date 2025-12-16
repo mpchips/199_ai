@@ -1,6 +1,6 @@
 ST Edge AI Core v2.2.0-20266 2adc00962
-Created date          : 2025-12-15 00:48:07
-Parameters            : generate --target stm32f4 --name ch690 -m /Users/moreypiatos/calib_models/ch690.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13455688844358316323733488169680505 --output /Users/moreypiatos/.stm32cubemx/ch690_output
+Created date          : 2025-12-17 00:10:17
+Parameters            : generate --target stm32f4 --name ch690 -m /Users/moreypiatos/calib_models/ch690.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23340105404994217201391625506729739 --output /Users/moreypiatos/.stm32cubemx/ch690_output
 
 Exec/report summary (generate)
 ----------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ compression        :   none
 options            :   allocate-inputs, allocate-outputs                                                                    
 optimization       :   balanced                                                                                             
 target/series      :   stm32f4                                                                                              
-workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace13455688844358316323733488169680505   
+workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23340105404994217201391625506729739   
 output dir         :   /Users/moreypiatos/.stm32cubemx/ch690_output                                                         
 model_fmt          :   float                                                                                                
 model_name         :   ch690                                                                                                

@@ -104,7 +104,9 @@ AI_ALIGNED(4) ai_i8 outs_svc_1[AI_CLF_SVC_OUT_1_SIZE_BYTES];
 AI_ALIGNED(16) ai_i8 outs_svc_2[AI_CLF_SVC_OUT_2_SIZE_BYTES];
 ai_i8* data_outs_svc[AI_CLF_SVC_OUT_NUM] = {outs_svc_1, outs_svc_2};
 
-float data_outs_xgb[N_FUNC_GROUPS];
+float data_outs_rf_float[N_FUNC_GROUPS];
+float data_outs_svc_float[N_FUNC_GROUPS];
+float data_outs_xgb_float[N_FUNC_GROUPS];
 
 /* Activations buffers -------------------------------------------------------*/
 AI_ALIGNED(32) uint8_t pool0[AI_CH450_DATA_ACTIVATION_1_SIZE];
@@ -142,8 +144,6 @@ ai_handle ch690 = AI_HANDLE_NULL;
 ai_handle clf_rf = AI_HANDLE_NULL;
 ai_handle clf_svc = AI_HANDLE_NULL;
 
-// ai_network_params ch450_params;
-
 ai_buffer* ai_input_ch450;
 ai_buffer* ai_output_ch450;
 ai_buffer* ai_input_ch475;
@@ -167,16 +167,17 @@ ai_buffer* ai_output_clf_svc;
 
 /* Program variables ---------------------------------------------------------*/
 
-uint64_t runtimes_calib_sum[8];
-float runtimes_calib_avg[8];
-uint64_t runtimes_clf_sum[3];
-float runtimes_clf_avg[3];
-uint64_t runtimes_ALL_sum;
-float runtimes_ALL;
+uint64_t runtimes_calib_sum[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+float runtimes_calib_avg[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+uint64_t runtimes_clf_sum[3] = {0, 0, 0};
+float runtimes_clf_avg[3] = {0.0, 0.0, 0.0};
+uint64_t runtimes_ALL_sum = 0;
+float runtimes_ALL = 0.0;
 
 ai_i32 batch;
 ai_error ai_err;
 uint32_t timestamp;
+uint32_t OVERALL_start;
 uint32_t elapsed;
 // float uncalib_spectrum[8];
 // float calib_spectrum[8];
@@ -232,18 +233,56 @@ int main(void)
     ai_log_err(ai_err, "ai_bootstrap()");
   }
 
-  UART_printf("Proceeding to data acquisition...");
-  int err = get_data(0);
-  if (err != 0) {
-    UART_printf("\r\nERROR: Index out of bounds. Please input index < 315\r\n");
+
+  // print header
+  UART_printf("450nm,475nm,515nm,550nm,555nm,600nm,640nm,690nm,rf,svc,xgb\r\n");
+  for (int i=0; i < N_SAMPLES; i++) {
+    htim11.Instance->CNT = 0;
+	  HAL_TIM_Base_Start(&htim11);
+    OVERALL_start = htim11.Instance->CNT;
+    get_data(i);
+    ai_run_calib();
+    ai_run_clf();
+    elapsed = htim11.Instance->CNT - OVERALL_start;
+    if (OVERALL_start >  htim11.Instance->CNT) { 
+      elapsed = OVERALL_start - (65535 - elapsed); 
+    }
+    runtimes_ALL_sum += elapsed;
+
+    HAL_TIM_Base_Stop(&htim11);
+    
+
+    // print results
+    // for (int n=0; n < N_CHANNELS; n++) {
+    //   UART_printf("%.10f,", *data_outs[n]);
+    // }
+    // UART_printf("%u,", get_category(data_outs_rf_float));
+    // UART_printf("%u,", get_category(data_outs_svc_float));
+    // UART_printf("%u\r\n", get_category(data_outs_xgb_float));
   }
 
-  UART_printf("\r\nExecuting ai_run_calib()\r\n");
-  ai_run_calib();
+  // process runtimes
+  for (int i=0; i < N_CHANNELS; i++) {
+    runtimes_calib_avg[i] = ((float)runtimes_calib_sum[i])/N_SAMPLES;
+  }
+  for (int i=0; i < 3; i++) {
+    runtimes_clf_avg[i] = ((float)runtimes_clf_sum[i])/N_SAMPLES;
+  }
+  runtimes_ALL = ((float)runtimes_ALL_sum)/N_SAMPLES;
 
-  UART_printf("\r\nExecuting ai_run_clf()\r\n");
-  ai_run_clf();
-
+  UART_printf("\r\nDONE. Average runtimes:\r\n");
+  UART_printf("  450nm: %.2f usec\r\n", runtimes_calib_avg[0]);
+  UART_printf("  475nm: %.2f usec\r\n", runtimes_calib_avg[1]);
+  UART_printf("  515nm: %.2f usec\r\n", runtimes_calib_avg[2]);
+  UART_printf("  550nm: %.2f usec\r\n", runtimes_calib_avg[3]);
+  UART_printf("  555nm: %.2f usec\r\n", runtimes_calib_avg[4]);
+  UART_printf("  600nm: %.2f usec\r\n", runtimes_calib_avg[5]);
+  UART_printf("  640nm: %.2f usec\r\n", runtimes_calib_avg[6]);
+  UART_printf("  690nm: %.2f usec\r\n", runtimes_calib_avg[7]);
+  UART_printf("     RF: %.2f usec\r\n", runtimes_clf_avg[0]);
+  UART_printf("    SVC: %.2f usec\r\n", runtimes_clf_avg[1]);
+  UART_printf("    XGB: %.2f usec\r\n", runtimes_clf_avg[2]);
+  UART_printf("OVERALL: %.2f usec\r\n", runtimes_ALL);
 
   /* USER CODE END 2 */
 
@@ -355,7 +394,7 @@ int ai_bootstrap(void) {
     ai_log_err(ai_err, err_msg);
     return -1;
   } else {
-	  UART_printf("1. (SUMAKSES) Creation of ALL model instances\r\n");
+	  // UART_printf("1. (SUMAKSES) Creation of ALL model instances\r\n");
   }
 
   ai_input_ch450 = ai_ch450_inputs_get(ch450, NULL);
@@ -379,9 +418,7 @@ int ai_bootstrap(void) {
   ai_input_clf_svc = ai_clf_svc_inputs_get(clf_svc, NULL);
   ai_output_clf_svc = ai_clf_svc_outputs_get(clf_svc, NULL);
 
-  UART_printf("2. (SUMAKSES) Allocating input & output data storage\r\n");
-  // UART_printf("\tInput ADDR: %x\r\n", (*ai_input_ch450).data);
-  // UART_printf("\tOutput ADDR: %x\r\n", (*ai_output_ch450).data);
+  // UART_printf("2. (SUMAKSES) Allocating input & output data storage\r\n");
 
   data_ins[0] = (*ai_input_ch450).data;
   data_outs[0] = (*ai_output_ch450).data;
@@ -406,138 +443,141 @@ int ai_bootstrap(void) {
   ai_output_clf_svc[0].data = AI_HANDLE_PTR(data_outs_svc[0]);
   ai_output_clf_svc[1].data = AI_HANDLE_PTR(data_outs_svc[1]);
 
-  UART_printf("3. (SUMAKSES) Pointing of global variables to model in/out buffers\r\n");
-  UART_printf("End of ai_bootstrap()\r\n\n");
+  // UART_printf("3. (SUMAKSES) Pointing of global variables to model in/out buffers\r\n");
+  // UART_printf("End of ai_bootstrap()\r\n\n");
 
   return 0;
 }
 
 int get_data(int idx) {
   if (idx > N_SAMPLES-1) {
+    UART_printf("\r\nERROR: Index out of bounds. Please input index < 315\r\n");
     return -1;
   }
   for (int i=0; i < N_CHANNELS; i++) {
     *data_ins[i] = (ai_float) input_data_f[(idx*8) + i];
   }
-  UART_printf("DONE\r\n");
 
   return 0;
 }
 
 int ai_run_calib(void) {
-  UART_printf("Running Calibration models\r\n");
-
-  uint32_t runtimes[8];
-  uint32_t time_start;
+  // UART_printf("Running Calibration models\r\n");
   char* err_msg = "";
 
   ((float*)data_ins_rf)[0] = *data_outs[0];
   ((float*)data_ins_svc)[0] = **data_outs;
 
-  HAL_TIM_Base_Start(&htim11);
-  time_start = htim11.Instance->CNT;
+  // HAL_TIM_Base_Start(&htim11);
+  // uint32_t time_start = htim11.Instance->CNT;
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch450_run(ch450, ai_input_ch450, ai_output_ch450);
-  runtimes[0] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[0] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch450_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch475_run(ch475, ai_input_ch475, ai_output_ch475);
-  runtimes[1] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[1] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch475_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch515_run(ch450, ai_input_ch515, ai_output_ch515);
-  runtimes[2] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[2] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch515_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch550_run(ch450, ai_input_ch550, ai_output_ch550);
-  runtimes[3] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[3] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch550_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch555_run(ch450, ai_input_ch555, ai_output_ch555);
-  runtimes[4] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[4] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch555_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch600_run(ch450, ai_input_ch600, ai_output_ch600);
-  runtimes[5] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[5] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch600_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch640_run(ch450, ai_input_ch640, ai_output_ch640);
-  runtimes[6] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[6] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch640_run"; }
 
   timestamp = htim11.Instance->CNT;
   batch = ai_ch690_run(ch450, ai_input_ch690, ai_output_ch690);
-  runtimes[7] = htim11.Instance->CNT - timestamp;
+  runtimes_calib_sum[7] += htim11.Instance->CNT - timestamp;
   if (batch <= 0) { err_msg = "ai_ch690_run"; }
 
-  elapsed = htim11.Instance->CNT - time_start;
+  // elapsed = htim11.Instance->CNT - time_start;
   HAL_TIM_Base_Stop(&htim11);
   if (strlen(err_msg) > 1) {
     UART_printf("1. (FAIL) Calibration model/s failed :((\r\n");
     UART_printf("Failure at %s\r\n", err_msg);
-    // ai_log_err(ai_ch450_get_error(ch450), "ai_ch450_run");
     return -1;
   }
   
-  UART_printf("1. (SUMAKSES) Calibration successful (TIME: %i microseconds)\r\n", elapsed);
-  UART_printf("idx        input       output   time\r\n");
-  for (int i=0; i < N_CHANNELS; i++) {
-    UART_printf(" %i  %.10f %.10f %4ius\r\n", i, *data_ins[i], *data_outs[i], runtimes[i]);
-  }
+  // UART_printf("1. (SUMAKSES) Calibration successful (TIME: %i microseconds)\r\n", elapsed);
+  // UART_printf("idx        input       output   time\r\n");
+  // for (int i=0; i < N_CHANNELS; i++) {
+  //   UART_printf(" %i  %.10f %.10f %4ius\r\n", i, *data_ins[i], *data_outs[i], runtimes_calib_sum[i]);
+  // }
 
   return 0;
 }
 
 int ai_run_clf(void) {
-  float cat[3];
 
   HAL_TIM_Base_Start(&htim11);
 
   timestamp = htim11.Instance->CNT;
   batch = ai_clf_rf_run(clf_rf, ai_input_clf_rf, ai_output_clf_rf);
   elapsed = htim11.Instance->CNT - timestamp;
+  if (timestamp >  htim11.Instance->CNT) { 
+    elapsed = timestamp - (65535 - elapsed); 
+  }
+  runtimes_clf_sum[0] += elapsed;
   if (batch <= 0) {
     UART_printf("RF Classification inference failed :((\r\n");
     ai_log_err(ai_clf_rf_get_error(clf_rf), "ai_clf_rf_run");
-  } else {
-    UART_printf("(SUMAKSES) RF Classification successful. (TIME: %u)\r\n", elapsed);
   }
 
-  memcpy(&cat[0], data_outs_rf[1], 4);
-  memcpy(&cat[1], data_outs_rf[1]+4, 4);
-  memcpy(&cat[2], data_outs_rf[1]+8, 4);
-  UART_printf("Output 2: %.10f %.10f %.10f\r\n", cat[0], cat[1], cat[2]);
-  UART_printf("Func Grp: %u\r\n", get_category(cat));
+  memcpy(&data_outs_rf_float[0], data_outs_rf[1], 4);
+  memcpy(&data_outs_rf_float[1], data_outs_rf[1]+4, 4);
+  memcpy(&data_outs_rf_float[2], data_outs_rf[1]+8, 4);
+  // UART_printf("Output 2: %.10f %.10f %.10f\r\n", data_outs_rf_float[0], data_outs_rf_float[1], data_outs_rf_float[2]);
+  // UART_printf("Func Grp: %u\r\n", get_category(data_outs_rf_float));
 
   timestamp = htim11.Instance->CNT;
   batch = ai_clf_svc_run(clf_svc, ai_input_clf_svc, ai_output_clf_svc);
   elapsed = htim11.Instance->CNT - timestamp;
+  if (timestamp >  htim11.Instance->CNT) { 
+    elapsed = timestamp - (65535 - elapsed); 
+  }
+  runtimes_clf_sum[1] += elapsed;
   if (batch <= 0) {
     UART_printf("SVC Classification inference failed :((\r\n");
     ai_log_err(ai_clf_svc_get_error(clf_svc), "ai_clf_svc_run");
-  } else {
-    UART_printf("(SUMAKSES) SVC Classification successful. (TIME: %u)\r\n", elapsed);
   }
 
-  memcpy(&cat[0], data_outs_rf[1], 4);
-  memcpy(&cat[1], data_outs_rf[1]+4, 4);
-  memcpy(&cat[2], data_outs_rf[1]+8, 4);
-  UART_printf("Output 2: %.10f %.10f %.10f\r\n", cat[0], cat[1], cat[2]);
-  UART_printf("Func Grp: %u\r\n", get_category(cat));
+  memcpy(&data_outs_svc_float[0], data_outs_rf[1], 4);
+  memcpy(&data_outs_svc_float[1], data_outs_rf[1]+4, 4);
+  memcpy(&data_outs_svc_float[2], data_outs_rf[1]+8, 4);
+  // UART_printf("Output 2: %.10f %.10f %.10f\r\n", data_outs_svc_float[0], data_outs_svc_float[1], data_outs_svc_float[2]);
+  // UART_printf("Func Grp: %u\r\n", get_category(data_outs_svc_float));
 
   timestamp = htim11.Instance->CNT;
-  ai_clf_xgb_run((float*)data_outs[0], &data_outs_xgb[0]);
+  ai_clf_xgb_run((float*)data_outs[0], &data_outs_xgb_float[0]);
   elapsed = htim11.Instance->CNT - timestamp;
-  UART_printf("(SUMAKSES) XGB Classification successful. (TIME: %u)\r\n", elapsed);
-  UART_printf("Output 2: %.10f %.10f %.10f\r\n", data_outs_xgb[0], data_outs_xgb[1], data_outs_xgb[2]);
-  UART_printf("Func Grp: %u\r\n", get_category(data_outs_xgb));
+  if (timestamp >  htim11.Instance->CNT) { 
+    elapsed = timestamp - (65535 - elapsed); 
+  }
+  runtimes_clf_sum[2] += elapsed;
+  // UART_printf("(SUMAKSES) XGB Classification successful. (TIME: %u)\r\n", elapsed);
+  // UART_printf("Output 2: %.10f %.10f %.10f\r\n", data_outs_xgb_float[0], data_outs_xgb_float[1], data_outs_xgb_float[2]);
+  // UART_printf("Func Grp: %u\r\n", get_category(data_outs_xgb_float));
 
   return 0;
 }

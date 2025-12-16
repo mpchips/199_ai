@@ -113,44 +113,44 @@
   ],
   "environment": {
     "generated_model": {
-      "generated_time": "2025-12-15T00:46:28+0800",
+      "generated_time": "2025-12-17T00:08:46+0800",
       "model_files": [
         {
           "name": "ch550_data_params.h",
-          "signature": "0x8f2b3eb806391d41c2c5e5e162f32868"
+          "signature": "0xa8410f546ed963bffe10ec7cfc1d9fce"
         },
         {
           "name": "ch550_data_params.c",
-          "signature": "0x55a7c5f01463e7e47add1db6d26b0024"
+          "signature": "0xd44163a7ea77be0ac5caa64683355fa2"
         },
         {
           "name": "ch550_data.h",
-          "signature": "0x2de2cf0b6d4b5f8989d4c634822c76fe"
+          "signature": "0xefa41dc241f6e18a379272c7628bc2b0"
         },
         {
           "name": "ch550_data.c",
-          "signature": "0x39bc5f7cadd8376f42c150718361bd0c"
+          "signature": "0xa3d1d08475dbab672c8c0484fdc1d06f"
         },
         {
           "name": "ch550_config.h",
-          "signature": "0xf701fdffa2a11cf89c14e3992429fd8b"
+          "signature": "0x8d4e43a05fa0fbaef8ea4237126c5732"
         },
         {
           "name": "ch550.h",
-          "signature": "0x8704eea660b14726527a7c8b3531f0e8"
+          "signature": "0x58d788fc86ac56c517091e88990ee2f6"
         },
         {
           "name": "ch550.c",
-          "signature": "0x75aae86264d1db3f0bc48ba82aeab38e"
+          "signature": "0x1a0b228636fe83c4fc6ff0d288b938ea"
         }
       ],
       "name": "ch550"
     },
-    "network_signature": "0x9f7aa48d69f26124",
+    "network_signature": "0xd209dadb1426360a",
     "test_name": "",
     "tools": [
       {
-        "arguments": "generate --target stm32f4 --name ch550 -m /Users/moreypiatos/calib_models/ch550.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1344616787042734126502690145495685 --output /Users/moreypiatos/.stm32cubemx/ch550_output",
+        "arguments": "generate --target stm32f4 --name ch550 -m /Users/moreypiatos/calib_models/ch550.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace2333093281550436557852557298919236 --output /Users/moreypiatos/.stm32cubemx/ch550_output",
         "environment": [
           "STATS_TYPE=X-CUBE-AI"
         ],

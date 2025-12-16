@@ -412,44 +412,44 @@
   ],
   "environment": {
     "generated_model": {
-      "generated_time": "2025-12-15T00:48:31+0800",
+      "generated_time": "2025-12-17T00:10:41+0800",
       "model_files": [
         {
           "name": "clf_rf_data_params.h",
-          "signature": "0x4652c3a8e949444ab78c35789146137f"
+          "signature": "0x0adbc30d28941689383be39de2c01f6c"
         },
         {
           "name": "clf_rf_data_params.c",
-          "signature": "0x9651fa2e48312819b2def5e6fe22f9b0"
+          "signature": "0x0450a287ac28667054dab95f7d6d2034"
         },
         {
           "name": "clf_rf_data.h",
-          "signature": "0xab9deb557c56ecaaa785658542533f17"
+          "signature": "0x9f43ca4b02a8e5744eaa3e7ffbfe9711"
         },
         {
           "name": "clf_rf_data.c",
-          "signature": "0x15480136efc9b69b145e9865165699e4"
+          "signature": "0x03365933cc2b2d7c2d17b21cde841d23"
         },
         {
           "name": "clf_rf_config.h",
-          "signature": "0xcb7ee1fb3c8451292714dcf240d829f1"
+          "signature": "0x79b6a6b9900a55d614ce6a2bbb81dbb0"
         },
         {
           "name": "clf_rf.h",
-          "signature": "0x2f02024970f8183017e8f494242eb5dc"
+          "signature": "0xb6fb564a6f1faa96977da911577e80be"
         },
         {
           "name": "clf_rf.c",
-          "signature": "0x71498145ed358e7605adeb779b2830eb"
+          "signature": "0x3f0db1696d95272e4bdec6accc937bf1"
         }
       ],
       "name": "clf_rf"
     },
-    "network_signature": "0x85e7324f0e6a3c22",
+    "network_signature": "0xe39ad99164badaa3",
     "test_name": "",
     "tools": [
       {
-        "arguments": "generate --target stm32f4 --name clf_rf -m /Users/moreypiatos/clf_models/RandomForest.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345817150897022091019310175335282 --output /Users/moreypiatos/.stm32cubemx/clf_rf_output",
+        "arguments": "generate --target stm32f4 --name clf_rf -m /Users/moreypiatos/clf_models/RandomForest.onnx --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace2334240811459317715743477810666083 --output /Users/moreypiatos/.stm32cubemx/clf_rf_output",
         "environment": [
           "STATS_TYPE=X-CUBE-AI"
         ],

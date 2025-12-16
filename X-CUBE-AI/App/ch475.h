@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    ch475.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    2025-12-15T00:45:44+0800
+  * @date    2025-12-17T00:07:56+0800
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention

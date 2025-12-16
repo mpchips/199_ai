@@ -1,30 +1,30 @@
 ST Edge AI Core v2.2.0-20266 2adc00962
-Created date          : 2025-12-15 00:47:42
-Parameters            : generate --target stm32f4 --name ch640 -m /Users/moreypiatos/calib_models/ch640.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345319590076226527820300660871699 --output /Users/moreypiatos/.stm32cubemx/ch640_output
+Created date          : 2025-12-17 00:09:54
+Parameters            : generate --target stm32f4 --name ch640 -m /Users/moreypiatos/calib_models/ch640.tflite --compression none --verbosity 1 --workspace /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23337913755795613434321694726259904 --output /Users/moreypiatos/.stm32cubemx/ch640_output
 
 Exec/report summary (generate)
----------------------------------------------------------------------------------------------------------------------------
-model file         :   /Users/moreypiatos/calib_models/ch640.tflite                                                        
-type               :   tflite                                                                                              
-c_name             :   ch640                                                                                               
-compression        :   none                                                                                                
-options            :   allocate-inputs, allocate-outputs                                                                   
-optimization       :   balanced                                                                                            
-target/series      :   stm32f4                                                                                             
-workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace1345319590076226527820300660871699   
-output dir         :   /Users/moreypiatos/.stm32cubemx/ch640_output                                                        
-model_fmt          :   float                                                                                               
-model_name         :   ch640                                                                                               
-model_hash         :   0x56b95aec13ef7b40cc0f775dbd6b4564                                                                  
-params #           :   2 items (8 B)                                                                                       
----------------------------------------------------------------------------------------------------------------------------
-input 1/1          :   'serving_default_ke..tensor_120', f32(1x1), 4 Bytes, activations                                    
-output 1/1         :   'gemm_0', f32(1x1), 4 Bytes, activations                                                            
-macc               :   2                                                                                                   
-weights (ro)       :   8 B (8 B) (1 segment)                                                                               
-activations (rw)   :   8 B (8 B) (1 segment) *                                                                             
-ram (total)        :   8 B (8 B) = 8 + 0 + 0                                                                               
----------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
+model file         :   /Users/moreypiatos/calib_models/ch640.tflite                                                         
+type               :   tflite                                                                                               
+c_name             :   ch640                                                                                                
+compression        :   none                                                                                                 
+options            :   allocate-inputs, allocate-outputs                                                                    
+optimization       :   balanced                                                                                             
+target/series      :   stm32f4                                                                                              
+workspace dir      :   /var/folders/rw/980nd1r933n624_53_rsqch80000gn/T/mxAI_workspace23337913755795613434321694726259904   
+output dir         :   /Users/moreypiatos/.stm32cubemx/ch640_output                                                         
+model_fmt          :   float                                                                                                
+model_name         :   ch640                                                                                                
+model_hash         :   0x56b95aec13ef7b40cc0f775dbd6b4564                                                                   
+params #           :   2 items (8 B)                                                                                        
+----------------------------------------------------------------------------------------------------------------------------
+input 1/1          :   'serving_default_ke..tensor_120', f32(1x1), 4 Bytes, activations                                     
+output 1/1         :   'gemm_0', f32(1x1), 4 Bytes, activations                                                             
+macc               :   2                                                                                                    
+weights (ro)       :   8 B (8 B) (1 segment)                                                                                
+activations (rw)   :   8 B (8 B) (1 segment) *                                                                              
+ram (total)        :   8 B (8 B) = 8 + 0 + 0                                                                                
+----------------------------------------------------------------------------------------------------------------------------
 (*) 'input'/'output' buffers are allocated in the activations buffer
 
 Model name - ch640
